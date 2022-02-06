@@ -5,14 +5,10 @@ from django.db import migrations
 def fill_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
     for building in Flat.objects.all():
-        building.owner_pure_phone = phonenumbers.parse(building.owners_phonenumber, 'RU')
-        building.save()
-
-def move_backward(apps, schema_editor):
-    Flat = apps.get_model('property', 'Flat')
-    for building in Flat.objects.all():
-        building.owner_pure_phone = ''
-        building.save()
+        pure_phone = phonenumbers.parse(building.owners_phonenumber, 'RU')
+        if phonenumbers.is_valid_number(pure_phone):
+            building.owner_pure_phone = pure_phone
+            building.save()
 
 class Migration(migrations.Migration):
 
@@ -21,5 +17,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(fill_owner_pure_phone, move_backward)
+        migrations.RunPython(fill_owner_pure_phone)
     ]
