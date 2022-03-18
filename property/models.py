@@ -68,6 +68,9 @@ class Owner(models.Model):
         related_name='owners'
     )
 
+    def __str__(self):
+        return f'{self.owner}, {self.owner_pure_phone}'
+
 
 class Complaint(models.Model):
     author = models.ForeignKey(
