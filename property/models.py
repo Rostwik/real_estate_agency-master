@@ -57,6 +57,17 @@ class Flat(models.Model):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
 
+class Owner(models.Model):
+    owner = models.CharField('ФИО владельца', max_length=200)
+    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+    owner_pure_phone = PhoneNumberField('Нормализованный номер владельца', blank=True)
+    owner_apartments = models.ManyToManyField(
+        Flat,
+        'Нормализованный номер владельца',
+        related_name='owners'
+    )
+
+
 class Complaint(models.Model):
     author = models.ForeignKey(
         User,
