@@ -83,6 +83,5 @@ class Complaint(models.Model):
         verbose_name='Квартира, на которую пожаловались'
     )
     complaint_text = models.TextField(
-        max_length=200,
         verbose_name='Текст жалобы'
     )
